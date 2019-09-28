@@ -137,7 +137,7 @@
             .attr("class", "tooltip")
             .style("background", "black")
             .style("color", "white")
-            .offset([80, -60])
+            .offset([120, -60])
             .html(function(d) {
                 if (chosenXAxis === "age") {
                     // All yAxis tooltip labels presented and formated as %.
@@ -155,23 +155,27 @@
         circlesGroup.call(toolTip);
 
         // Create "mouseover" event listener to display tool tip.
-        circlesGroup.on("mouseover", function() {
-            d3.select(this)
-                .transition()
-                .duration(3000)
-                .attr("r", 20)
-                .attr("fill", "blue");
-            })
+        circlesGroup
+            // .on("mouseover", function() {
+            // d3.select(this)
+            //     .transition()
+            //     .duration(3000)
+            //     .attr("r", 20)
+            //     .attr("fill", "blue");
+            // })
             .on("click", function(data) {
                 toolTip.show(data, this);
             })
-            .on("mouseout", function() {
-                d3.select(this)
-                .transition()
-                .duration(1000)
-                .attr("r", 15)
-                .attr("fill", "green")
-                toolTip.hide()
+            // .on("mouseout", function() {
+            //     d3.select(this)
+            //     // .transition()
+            //     // .duration(1000)
+            //     // .attr("r", 15)
+            //     // .attr("fill", "green")
+            //     toolTip.hide()
+            // });
+            .on("mouseout", function(data) {
+                toolTip.hide(data)
             });
 
         return circlesGroup;
