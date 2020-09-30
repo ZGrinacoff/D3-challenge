@@ -26,8 +26,6 @@ The data set included with the assignment is based on 2014 ACS 1-year estimates:
   
     * app.js (Used for final Dashboard)
     
-    * basicapp.js (Not used!)
-    
 ## Usage:
 
 Please navigate directly to [website](https://zgrinacoff.github.io/D3-challenge/).
