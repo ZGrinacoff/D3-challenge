@@ -52,7 +52,7 @@ function renderText(circletextGroup, newXScale, newYScale, chosenXAxis, chosenYA
     return circletextGroup;
 }
 // Function used for updating circles group with new tooltip.
-function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
     // Conditional for X Axis.
     if (chosenXAxis === "poverty") {
         var xlabel = "Poverty: ";
@@ -89,6 +89,13 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     circlesGroup.call(toolTip);
     // Create "mouseover" event listener to display tool tip.
     circlesGroup
+        .on("mouseover", function(data) {
+            toolTip.show(data, this);
+        })
+        .on("mouseout", function(data) {
+            toolTip.hide(data);
+        });
+    textGroup
         .on("mouseover", function(data) {
             toolTip.show(data, this);
         })
@@ -170,7 +177,7 @@ function makeResponsive() {
             .text(d => d.abbr)
             .classed("stateText", true);
         // Update tool tip function above csv import.
-        var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle);
+        var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
         // Add x label groups and labels.
         var xLabelsGroup = chartGroup.append("g")
             .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 20})`);
@@ -260,7 +267,7 @@ function makeResponsive() {
                 // Update circles with new x values.
                 circle = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
                 // Update tool tips with new info.
-                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle);
+                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
                 // Update circles text with new values.
                 circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
             });
@@ -307,11 +314,13 @@ function makeResponsive() {
                 }
                 // Update circles with new y values.
                 circle = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
-                // Update tool tips with new info.
-                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle);
                 // Update circles text with new values.
                 circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+                // Update tool tips with new info.
+                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
             });
+    }).catch(function(err) {
+        console.log(err);
     });
 }
 makeResponsive();
